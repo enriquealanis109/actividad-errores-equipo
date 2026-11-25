@@ -12,7 +12,7 @@ import { CreatePrestamoDto } from './dto/create-prestamo.dto.js';
 
 @Controller('prestamos')
 export class PrestamoController {
-  constructor(private readonly prestamoService: PrestamoService) {}
+  constructor(private readonly prestamoService: PrestamoService) { }
 
   @Post()
   create(@Body() createPrestamoDto: CreatePrestamoDto) {
@@ -29,7 +29,7 @@ export class PrestamoController {
     return this.prestamoService.findOne(id);
   }
 
-  @Get('vencidos')
+  @Get(':id')
   findVencidos() {
     return this.prestamoService.findVencidos();
   }
