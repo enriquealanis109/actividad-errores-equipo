@@ -14,7 +14,7 @@ import {
 
 @Injectable()
 export class PrestamoService {
-  constructor(private readonly prisma: PrismaService) {}
+  constructor(private readonly prisma: PrismaService) { }
 
   async create(data: CreatePrestamoDto) {
     const socio = await this.prisma.socio.findUnique({
@@ -24,13 +24,13 @@ export class PrestamoService {
       throw new NotFoundException(`El socio ${data.socioId} no existe`);
     }
 
-    const libro = this.prisma.libro.findUnique({
+    const libro = await this.prisma.libro.findUnique({
       where: { id: data.libroId },
     });
     if (!libro) {
       throw new NotFoundException(`El libro ${data.libroId} no existe`);
     }
-    if (libro.stock < 0) {
+    if (libro.stock <= 0) {
       throw new BadRequestException('No hay ejemplares disponibles');
     }
 
@@ -63,7 +63,7 @@ export class PrestamoService {
 
   contarActivos(socioId: number) {
     return this.prisma.prestamo.count({
-      where: { socioId, fechaDevolucion: { not: null } },
+      where: { socioId, fechaDevolucion: null },
     });
   }
 
@@ -78,7 +78,7 @@ export class PrestamoService {
     return this.prisma.prestamo.findMany({
       where: {
         fechaDevolucion: null,
-        fechaLimite: { gt: new Date() },
+        fechaLimite: { lt: new Date() },
       },
       orderBy: { fechaLimite: 'asc' },
       include: { libro: true, socio: true },

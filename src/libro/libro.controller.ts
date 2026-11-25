@@ -16,7 +16,7 @@ import { UpdateLibroDto } from './dto/update-libro.dto.js';
 
 @Controller('libros')
 export class LibroController {
-  constructor(private readonly libroService: LibroService) {}
+  constructor(private readonly libroService: LibroService) { }
 
   @Post()
   create(@Body() createLibroDto: CreateLibroDto) {
@@ -26,11 +26,13 @@ export class LibroController {
   @Get()
   @ApiQuery({ name: 'categoriaId', required: false, type: Number })
   findAll(@Query('categoriaId') categoriaId?: string) {
-    return this.libroService.findAll(Number(categoriaId));
+    return this.libroService.findAll(
+      categoriaId ? Number(categoriaId) : undefined,
+    );
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
+  findOne(@Param('id', ParseIntPipe) id: number) {
     return this.libroService.findOne(id);
   }
 
