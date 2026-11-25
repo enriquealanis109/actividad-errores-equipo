@@ -48,6 +48,18 @@
 
 ---
 
+## Iván Jiménez— Socios y configuración de Prisma**
+
+| #   | Archivo                                  | Línea | Tipo     | ¿Qué estaba mal?                                                             | ¿Cómo lo detectaste?                                  | ¿Cómo lo solucionaste?                                                    |
+| --- | ---------------------------------------- | ----- | -------- | ---------------------------------------------------------------------------- | ----------------------------------------------------- | ------------------------------------------------------------------------- |
+| 1   | `src/socio/socio.module.ts`              | 3     | Typo     | La importación de `SocioService` no tenía la extensión `.js`                 | VS Code en rojo                                       | Agregué la extensión `.js`                                                |
+| 2   | `prisma/schema.prisma` (modelo Autor)    | 12    | Terminal | El campo `nombre` decía `Strng` en vez de `String`                           | `npx prisma generate` falló / VS Code en rojo         | Cambié `Strng` por `String`                                               |
+| 3   | `prisma/schema.prisma` (modelo Prestamo) | 63    | Terminal | La referencia decía `ID` en vez de `id`                                      | `npx prisma generate` falló con error P1012           | Cambié `references: [ID]` por `references: [id]`                          |
+| 4   | `src/prisma/prisma.service.ts`           | 6     | Typo     | `PrismaClien` en vez de `PrismaClient`                                       | VS Code en rojo                                       | Corregí el nombre a `PrismaClient`                                        |
+| 5   | `src/socio/dto/create-socio.dto.ts`      | 2     | Typo     | `IsEmail` se importaba desde `class-transformer` en vez de `class-validator` | VS Code en rojo / error de importación                | Cambié la importación a `class-validator`                                 |
+| 6   | `prisma.config.ts`                       | 10    | Terminal | La variable decía `DATABASE_ULR` en vez de `DATABASE_URL`                    | `npx prisma migrate dev --name init` falló            | Corregí `DATABASE_ULR` por `DATABASE_URL`                                 |
+| 7   | `src/socio/socio.controller.ts`          | 27    | Sintaxis | Faltaba una llave `}` para cerrar el método `findAll()`                      | `npm run build` mostró errores de sintaxis en cascada | Agregué la llave de cierre y corregí la ubicación de la llave de la clase |
+
 ---
 
 ## Reflexiones
@@ -72,6 +84,6 @@
 
 ### Ivan jimenez — Préstamos
 
-1. **¿Qué tipo costó más?**
-2. **¿Qué herramienta ayudó más?**
-3. **¿Cómo evitarlos?**
+1. **¿Qué tipo costó más? El que más me costó fue el error de sintaxis por la llave que faltaba en el controlador de Socios. Me tomó bastante tiempo encontrar dónde estaba el problema y entender por qué estaba generando tantos errores. Fue el último que logré solucionar.**
+2. **¿Qué herramienta ayudó más? VS Code fue una de las herramientas que más me ayudó, porque me señalaba los errores directamente en el código. También utilicé la terminal para ejecutar los comandos y comprobar si los cambios estaban funcionando.**
+3. **¿Cómo evitarlos? Revisando con más cuidado el código a medida que se va escribiendo, respetando la estructura de cada archivo y comprobando los cambios poco a poco. También es importante no dejar pasar los errores que aparecen, porque uno pequeño puede terminar causando muchos más.**
