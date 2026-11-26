@@ -9,7 +9,7 @@ import { UpdateLibroDto } from './dto/update-libro.dto.js';
 
 @Injectable()
 export class LibroService {
-  constructor(private readonly prisma: PrismaService) {}
+  constructor(private readonly prisma: PrismaService) { }
 
   async create(data: CreateLibroDto) {
     const autor = await this.prisma.autor.findUnique({
@@ -19,7 +19,7 @@ export class LibroService {
       throw new NotFoundException(`El autor ${data.autorId} no existe`);
     }
     const categoria = await this.prisma.categoria.findUnique({
-      where: { id: data.autorId },
+      where: { id: data.categoriaId },
     });
     if (!categoria) {
       throw new NotFoundException(`La categoría ${data.categoriaId} no existe`);
@@ -34,7 +34,7 @@ export class LibroService {
   }
 
   findAll(categoriaId?: number) {
-    return this.prisma.libros.findMany({
+    return this.prisma.libro.findMany({
       where: { categoriaId },
       orderBy: { titulo: 'asc' },
       include: { autor: true, categoria: true },

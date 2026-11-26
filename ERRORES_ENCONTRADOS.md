@@ -1,31 +1,74 @@
 # Errores encontrados
 
-**Nombre: Roberto Trinidad **
-**Fecha: 25/11/26**
+**Fecha:** 25/11/2026
 
 > Tipos válidos: `Typo` (editor en rojo) · `Sintaxis` · `Terminal` (prisma / arranque / endpoint / tests) · `Lógica`
 
-1| Archivo: prisma/prismaschema | Línea 63| Tipo typo | ¿Qué estaba mal? estaba escrito como ID en lugar de id| ¿Cómo lo detectaste?: dandole una lectura rapida del schema| ¿Cómo lo solucionaste? cambiando mayusculas por minusculas |
+---
 
-2| Archivo  src/prestamo/prestamo.service.ts| Línea 27 | Tipo: Sintaxis | ¿Qué estaba mal?: faltaba colocar un await | ¿Cómo lo detectaste? me aparecio el error cuando abri el archivo | ¿Cómo lo solucionaste? escribiendo await donde correspondia |
+## Enrique Alanis — Autores, Categorías y main.ts
 
-3| Archivo: src/prestamo/prestamo.service.ts | Línea: 33 | Tipo Lógica| ¿Qué estaba mal? estaba escrito < 0   | ¿Cómo lo detectaste? Probando los endpoints en thundercliente| ¿Cómo lo solucionaste? lo cambie por <= 0|
+| #   | Archivo                               | Línea | Tipo     | ¿Qué estaba mal?                                               | ¿Cómo lo detectaste?                                   | ¿Cómo lo solucionaste?                             |
+| --- | ------------------------------------- | ----- | -------- | -------------------------------------------------------------- | ------------------------------------------------------ | -------------------------------------------------- |
+| 1   | `prisma/schema.prisma` (modelo Autor) | —     | Terminal | El campo `nombre` decía `Strng` en vez de `String`             | `npx prisma generate` falló / VS Code en rojo          | Cambié `Strng` por `String`                        |
+| 2   | `src/autor/autor.controller.ts`       | 24    | Typo     | `@Gett()` en vez de `@Get()`                                   | VS Code en rojo                                        | Corregí a `@Get()`                                 |
+| 3   | `src/autor/dto/create-autor.dto.ts`   | 11    | Typo     | `@IsOptinal()` en vez de `@IsOptional()`                       | VS Code en rojo                                        | Corregí a `@IsOptional()`                          |
+| 4   | `src/categoria/categoria.service.ts`  | 26    | Sintaxis | Faltaba la coma después de `orderBy: { nombre: 'asc' }`        | VS Code en rojo / no compilaba                         | Agregué la coma                                    |
+| 5   | `src/autor/autor.service.ts`          | 23    | Lógica   | `if (autor)` invertido: lanzaba 404 cuando el autor SÍ existía | Probando `GET /autores/:id` con un id real daba 404    | Cambié a `if (!autor)`                             |
+| 6   | `src/categoria/categoria.module.ts`   | 6     | Terminal | `providers: []` vacío, faltaba `CategoriaService`              | Nest truena al arrancar ("can't resolve dependencies") | Importé y agregué `CategoriaService` a `providers` |
+| 7   | `src/main.ts`                         | 9     | Sintaxis | El `ValidationPipe` estaba suelto, fuera de `useGlobalPipes()` | No compilaba / Nest no arrancaba                       | Lo metí dentro de `useGlobalPipes(...)`            |
 
-4| Archivo  src/prestamo/prestamo.service.ts | Línea 66| Tipo Sintaxis | ¿Qué estaba mal? no devolvia la fecha | ¿Cómo lo detectaste? endpoint | ¿Cómo lo solucionaste? solamente borre los parentesis y el NOT: |
+---
 
-5| Archivo src/prestamo/utils/fechas.ts | Línea: 10| Tipo Lógica | ¿Qué estaba mal? estaba en resta en lugar de suma | ¿Cómo lo detectaste? Lógica. leyendo un poco, y repasando que estaba mal | ¿Cómo lo solucionaste? le cambie el - por el +  |
+## Kevin — Libros y configuración
 
-6| Archivo src/prestamo/prestamo.service.ts | Línea: 81 | Tipo:Sintaxis | ¿Qué estaba mal? no buscaba las fechas correctamente| ¿Cómo lo detectaste? me salia error en las pruebas | ¿Cómo lo solucionaste? me sujeria cambiarlo gt por lt: segun gt es mayor que y lt es menor que asi que eso cambie |
+| #   | Archivo                         | Línea | Tipo     | ¿Qué estaba mal?                                                                          | ¿Cómo lo detectaste?                  | ¿Cómo lo solucionaste?                                   |
+| --- | ------------------------------- | ----- | -------- | ----------------------------------------------------------------------------------------- | ------------------------------------- | -------------------------------------------------------- |
+| 1   | `prisma.config.ts`              | 10    | Typo     | `DATABASE_ULR` en vez de `DATABASE_URL`                                                   | VS Code en rojo / error de referencia | Corregí a `DATABASE_URL`                                 |
+| 2   | `src/prisma/prisma.service.ts`  | 6     | Typo     | `PrismaClien` en vez de `PrismaClient` (faltaba la `t`)                                   | No arrancaba Prisma                   | Corregí a `PrismaClient`                                 |
+| 3   | `src/libro/libro.controller.ts` | 34    | Sintaxis | Faltaba convertir `id` a número (`id` en vez de `+id`)                                    | VS Code en rojo por tipo              | Agregué `+id`                                            |
+| 4   | `src/libro/libro.service.ts`    | 15    | Lógica   | En `create` consultaba `libro.findUnique` en vez de validar el autor (`autor.findUnique`) | Comparando con otro código            | Cambié a `autor.findUnique`                              |
+| 5   | `src/libro/libro.service.ts`    | 22    | Lógica   | Usaba `data.autorId` en vez de `data.categoriaId`                                         | Leyendo el código                     | Cambié a `data.categoriaId`                              |
+| 6   | `src/libro/libro.controller.ts` | 29    | Lógica   | `findAll` hacía `Number(categoriaId)` sin validar vacío (`NaN`)                           | Leyendo el `findAll`                  | Cambié a `categoriaId ? Number(categoriaId) : undefined` |
+| 7   | `src/libro/libro.controller.ts` | 36    | Lógica   | `findOne` convertía con `+id` sin validar                                                 | Leyendo el controlador                | Cambié a `findOne(id)` + `ParseIntPipe`                  |
 
-7| Archivo src/prestamo/utils/fechas.ts | Línea: 23| Tipo: Tipos válidos: `Typo` | ¿Qué estaba mal? estaba !== | ¿Cómo lo detectaste? lei como tres veces fecha.ts| ¿Cómo lo solucionaste? solo le cambio el ! por = |
+---
 
-8| Archivo src/prestamo/prestamo.controller.ts| Línea27 | Tipo Terminal| ¿Qué estaba mal? no veia un id valido | ¿Cómo lo detectaste? la terminal aparecia error en la linea 27 del archivo| ¿Cómo lo solucionaste? cambie el `vencido` por `:id` |
+## Roberto Trinidad — Préstamos
 
-9| Archivo src/prisma/prisma.service.ts | Línea 6| Tipo(editor en rojo)  | ¿Qué estaba mal? faltaba la t en el export| ¿Cómo lo detectaste? no podia arrancar el prisma| ¿Cómo lo solucionaste? le agg la t |
+| #   | Archivo                               | Línea | Tipo     | ¿Qué estaba mal?                            | ¿Cómo lo detectaste?                 | ¿Cómo lo solucionaste?             |
+| --- | ------------------------------------- | ----- | -------- | ------------------------------------------- | ------------------------------------ | ---------------------------------- |
+| 1   | `prisma/schema.prisma`                | 63    | Typo     | Estaba escrito `ID` en vez de `id`          | Lectura rápida del schema            | Cambié mayúsculas por minúsculas   |
+| 2   | `src/prestamo/prestamo.service.ts`    | 27    | Sintaxis | Faltaba un `await`                          | Error al abrir el archivo            | Agregué `await` donde correspondía |
+| 3   | `src/prestamo/prestamo.service.ts`    | 33    | Lógica   | Estaba `< 0`                                | Probando endpoints en Thunder Client | Cambié a `<= 0`                    |
+| 4   | `src/prestamo/prestamo.service.ts`    | 66    | Sintaxis | No devolvía la fecha                        | Endpoint                             | Borré los paréntesis y el `NOT`    |
+| 5   | `src/prestamo/prestamo.service.ts`    | 81    | Lógica   | `gt` en vez de `lt` (mayor que / menor que) | Error en las pruebas                 | Cambié `gt` por `lt`               |
+| 6   | `src/prestamo/utils/fechas.ts`        | 10    | Lógica   | Era una resta en vez de una suma            | Leyendo y repasando                  | Cambié `-` por `+`                 |
+| 7   | `src/prestamo/prestamo.controller.ts` | 27    | Terminal | No recibía un `id` válido                   | Error en la terminal (línea 27)      | Cambié `vencido` por `:id`         |
 
-10| Archivo main  | Línea 9| Tipo Terminal` (prisma / arranque / endpoint / tests) | ¿Qué estaba mal? el app user no cerraba en parentesis | ¿Cómo lo detectaste? al probar arrancar | ¿Cómo lo solucionaste? lo cerre correctamente |
+---
 
-## Reflexión final
+---
+
+
+   
+=======
+## Reflexiones
+
+### Enrique Alanis — Autores, Categorías y main.ts
+
+1. **¿Qué tipo costó más?** El de **Lógica** (el `if (autor)` invertido en `findOne`), porque no salía en rojo — solo lo detecté probando `GET /autores/:id` con un id que existía y me daba 404 en vez del autor.
+2. **¿Qué herramienta ayudó más?** Swagger para cazar el de lógica probando el endpoint.
+3. **¿Cómo evitarlos?** Probar cada endpoint contra las reglas del README, hacer commits pequeños y revisar bien antes de subir.
+
+### Kevin — Libros y configuración
+
+1. **¿Qué tipo costó más?**
+2. **¿Qué herramienta ayudó más?**
+3. **¿Cómo evitarlos?**
+
+### Roberto Trinidad — Préstamos
+
 
 1. ¿Qué tipo de error te costó más encontrar y por qué?
 me costo encontrar mas los errores que no te avisa la terminal.
@@ -35,4 +78,9 @@ la terminal me ayudo mas ya que me aparece algunas recomendaciones y las cosas q
   
 5. ¿Qué harías para evitar este tipo de errores en tus propios proyectos?
 leer mejor las documentaciones y leer mas veces mi propio codigo
-   
+
+### Ivan jimenez — Préstamos
+
+1. **¿Qué tipo costó más?**
+2. **¿Qué herramienta ayudó más?**
+3. **¿Cómo evitarlos?**

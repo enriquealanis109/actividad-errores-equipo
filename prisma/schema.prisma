@@ -9,7 +9,7 @@ datasource db {
 
 model Autor {
   id           Int      @id @default(autoincrement())
-  nombre       Strng
+  nombre       String
   nacionalidad String?
   createdAt    DateTime @default(now())
   libros       Libro[]
