@@ -50,6 +50,9 @@
 
 ---
 
+
+   
+=======
 ## Reflexiones
 
 ### Enrique Alanis — Autores, Categorías y main.ts
@@ -66,9 +69,15 @@
 
 ### Roberto Trinidad — Préstamos
 
-1. **¿Qué tipo costó más?**
-2. **¿Qué herramienta ayudó más?**
-3. **¿Cómo evitarlos?**
+
+1. ¿Qué tipo de error te costó más encontrar y por qué?
+me costo encontrar mas los errores que no te avisa la terminal.
+
+3. ¿Qué herramienta te ayudó más (editor, terminal, Swagger/Postman, tests)?
+la terminal me ayudo mas ya que me aparece algunas recomendaciones y las cosas que estan mal, el motivo con el cual no funciona
+  
+5. ¿Qué harías para evitar este tipo de errores en tus propios proyectos?
+leer mejor las documentaciones y leer mas veces mi propio codigo
 
 ### Ivan jimenez — Préstamos
 
